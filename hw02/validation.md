@@ -107,8 +107,14 @@ I checked the second explanation directly against the data and did not find that
 **Prompt A:** *"Write Python to count rows in fact_transactions.csv where txn_type equals exactly 'Buy'."*
 **Prompt B:** *"Write Python to count the total rows in fact_transactions.csv, then subtract the count of rows where txn_type is Sell, Deposit, Withdrawal, Dividend, or Advisory Fee."*
 
-*Not yet run. Once both scripts have been run from the VS Code terminal, answer:*
+**6. What did each script return?**
 
-6. What did each script return?
-7. Do the results agree? If not, which one is wrong and why?
-8. Why is it useful to verify a count using subtraction rather than direct filtering?
+Prompt A, the direct filter, returned 83,556 for rows where `txn_type` equals exactly `Buy`. Prompt B, the subtraction approach, returned the same 83,556: it counted 298,772 total rows, counted 215,216 rows across the five non-Buy types (Sell, Deposit, Withdrawal, Dividend, Advisory Fee), and subtracted the two (298,772 − 215,216 = 83,556).
+
+**7. Do the results agree? If not, which one is wrong and why?**
+
+The results agree exactly at 83,556, so neither script needs to be treated as wrong. This is because the two approaches ask the question from opposite directions: Prompt A counts the rows that belong to `Buy`, and Prompt B counts everything that does not belong to any of the other five types, and since `txn_type` only ever holds one of six values (confirmed back in item 6 of the EDA script), those two counts have to land on the same number if the data and the code are both correct. Getting 83,556 from both methods, matching the assignment's known-answer benchmark, is strong evidence the Buy count is right and that there is no seventh, uncategorized `txn_type` value hiding in the file that either script mishandled.
+
+**8. Why is it useful to verify a count using subtraction rather than direct filtering?**
+
+Subtraction is useful because it reaches the same number through a completely different mechanism, so the two methods are unlikely to share the same bug. This is because a direct filter and a subtraction only fail in different ways: a typo in the filter string, like `"buy"` instead of `"Buy"`, would silently undercount Prompt A without touching Prompt B at all, while a missing entry in Prompt B's exclusion list, such as forgetting `Advisory Fee`, would inflate its result without touching Prompt A. Running both and getting the same answer rules out that category of error in a way that running the same filter twice never could, since two independent paths landing on 83,556 is a stronger check than one path checked twice.
