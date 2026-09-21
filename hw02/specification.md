@@ -10,6 +10,8 @@ Write one Python script that performs an exploratory data analysis (EDA) of the 
 
 All file paths in the script are relative to the repository root. The script should create the `hw02/charts/` folder if it does not exist. Charts must save to files and never open a window on screen.
 
+The file has nine columns: `txn_id`, `client_id`, `advisor_id`, `security_id`, `txn_date`, `txn_type`, `shares`, `price`, and `amount`. Use those exact column names.
+
 Each section of the output should carry a short numbered heading that matches the item below, so I can find each result in the terminal and in the profile file. Wrap the work in clearly named functions or clearly separated blocks, and add brief comments that explain each step in plain language.
 
 ## Steps the script must perform
@@ -26,7 +28,7 @@ Each section of the output should carry a short numbered heading that matches th
 
 6. **Transaction type counts.** Print the count and the percentage of rows for each value in `txn_type`, sorted from the most frequent to the least frequent.
 
-7. **Unique counts.** Print the number of unique clients, unique advisors, and unique securities in the file. Use the client ID, advisor ID, and `security_id` columns. Do not count missing values as a security.
+7. **Unique counts.** Print the number of unique clients, unique advisors, and unique securities in the file. Use the `client_id`, `advisor_id`, and `security_id` columns. Do not count missing values as a security.
 
 8. **Date range.** Print the earliest and latest `txn_date`. Because the dates are stored as text, work on a temporary date-converted copy of the column for this step so the original DataFrame column keeps its text type.
 
