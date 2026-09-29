@@ -1,0 +1,13 @@
+yfinance quarterly income statement for AAPL
+Most recent quarter end: 2026-06-30
+Total Revenue: $109,417 million
+Net Income:    $29,789 million
+
+Last four quarters from yfinance (millions):
+  2026-06-30  revenue    109,417   net income     29,789
+  2026-03-31  revenue    111,184   net income     29,578
+  2025-12-31  revenue    143,756   net income     42,097
+  2025-09-30  revenue    102,466   net income     27,466
+
+8-K extraction (2026-07-30, third quarter fiscal 2026):
+  revenue_reported 109400.0  net_income 29789.0  (millions)
