@@ -1,0 +1,9 @@
+table,raw_rows,clean_rows,quarantined_rows,flag_columns_added
+dim_advisor,25,25,0,
+dim_client,2525,2500,25,flag_risk_profile_missing
+dim_date,1827,1827,0,
+dim_security,500,500,0,
+dim_benchmark,8,8,0,
+fact_fees,122197,122197,0,
+fact_portfolio_snapshot,129547,129547,0,"flag_aum_floor, flag_return_implausible"
+fact_transactions,298772,298572,200,"flag_shares_sign_corrected, flag_non_trading_day, flag_after_client_exit"

@@ -1,0 +1,17 @@
+table,issue,action,rows_affected,note
+dim_client,"near-duplicate client rows (ids 2501-2525, last_name off by one letter)",quarantine,25,each matched one original client on all 12 other columns; 0 fact rows referenced them
+dim_client,state stored as full name in some rows,standardize,77,mapped with a fixed USPS lookup; each code already used elsewhere in the column
+dim_client,risk_profile blank,flag (leave blank),75,"all sit on benchmark 3 (60/40), which also serves Balanced clients; benchmark is not proof of the profile"
+fact_transactions,security_id stored as float text (45.0),convert,197175,"format only; numeric value identical, now joins to dim_security"
+fact_transactions,negative shares on Buy rows,convert (sign flip),836,verified: |shares| x price = amount within $0.01 on every changed row
+fact_transactions,client_id with no dim_client row,quarantine,200,200 of 200 are copies of another client's transaction; reassigning would double count
+fact_portfolio_snapshot,return_ytd stored as percent text (9.28%),convert (reconciled),300,value/100 agrees with benchmark_return_ytd + active_alpha_ytd within 0.00005; stored the 6-decimal sum
+fact_portfolio_snapshot,"aum exactly $1,000.00",flag,420,looks like a source-system floor after withdrawals; true balance unknown
+fact_portfolio_snapshot,return_ytd above 100%,flag,977,"return includes deposits on small accounts; alpha uses the same figure, so alpha is distorted too"
+fact_transactions,Buy/Sell/Dividend dated on a weekend,flag,56117,true trade date unknown; amounts are unaffected
+fact_transactions,inactive client activity after final snapshot month,flag,2410,either the exit date or the transaction date is wrong; cannot tell which
+dim_advisor,no correctable defect found,leave as is,0,copied unchanged; see decision_log.md
+dim_benchmark,no correctable defect found,leave as is,0,copied unchanged; see decision_log.md
+dim_date,no correctable defect found,leave as is,0,copied unchanged; see decision_log.md
+dim_security,no correctable defect found,leave as is,0,copied unchanged; see decision_log.md
+fact_fees,no correctable defect found,leave as is,0,copied unchanged; see decision_log.md
