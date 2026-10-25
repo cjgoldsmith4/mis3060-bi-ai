@@ -1,0 +1,160 @@
+check_group,table,column,check,severity,rows_affected,rows_checked,pct_affected,example,note
+1 column,dim_client,state,state in allowed list,ERROR,78,2525,3.0891,Pennsylvania; New York; New Jersey,
+1 column,fact_portfolio_snapshot,return_ytd,values fail to parse as float,ERROR,300,129547,0.2316,9.28%; 19.52%; 13.35%,will break type conversion in a BI tool
+1 column,fact_transactions,security_id,values fail to parse as int,ERROR,197175,197175,100.0,45.0; 174.0; 478.0,will break type conversion in a BI tool
+1 column,fact_transactions,shares,shares > 0,ERROR,836,298772,0.2798,-261.9719; -338.0946; -360.8407,
+3 referential,fact_transactions,client_id,client_id -> dim_client.client_id,ERROR,200,298772,0.0669,2702; 2704; 2708; 2714; 2715,match 99.9331%; null-key rate 0.0000%; 200 distinct orphan keys
+3 referential,fact_transactions,security_id,security_id -> dim_security.security_id,ERROR,197175,197175,100.0,1.0; 2.0; 3.0; 4.0; 5.0,match 0.0000%; null-key rate 34.0049%; 500 distinct orphan keys
+1 column,dim_client,risk_profile,blank where a value is required,WARN,76,2525,3.0099,,completeness defect
+1 column,fact_portfolio_snapshot,return_ytd,mixed value shapes (rows outside the dominant shape),WARN,435,129547,0.3358,,shapes: 9.9 (129112); 9.9% (300); 9.9A-9 (111); 9A-9 (24)
+1 column,fact_portfolio_snapshot,active_alpha_ytd,mixed value shapes (rows outside the dominant shape),WARN,756,129547,0.5836,,shapes: 9.9 (128791); 9.9A-9 (610); 9A-9 (146)
+1 column,fact_portfolio_snapshot,return_ytd,return_ytd > 100% (implausible YTD return),WARN,977,129547,0.7542,,small accounts with large deposits; return includes cash flows
+1 column,fact_portfolio_snapshot,aum,aum exactly 1000.00 (looks like a floor),WARN,420,129547,0.3242,,"source system appears to floor balances at $1,000"
+2 single-table,dim_client,last_name,near-duplicate rows: identical except last_name,WARN,50,2525,1.9802,2240:Collins | 2504:Collin,pairs that differ in one column
+2 single-table,fact_fees,fee_date,near-duplicate rows: identical except fee_date,WARN,2,122197,0.0016,57446:2020-06-01 | 57490:2024-04-01,pairs that differ in one column
+2 single-table,fact_transactions,client_id,near-duplicate rows: identical except client_id,WARN,400,298772,0.1339,281233:2352 | 298767:2898,pairs that differ in one column
+2 single-table,fact_transactions,txn_date,near-duplicate rows: identical except txn_date,WARN,14,298772,0.0047,126015:2020-03-02 | 126094:2022-11-10,pairs that differ in one column
+2 single-table,fact_transactions,amount,near-duplicate rows: identical except amount,WARN,1050,298772,0.3514,25:94893.52 | 136:26587.27,pairs that differ in one column
+4 cross-table,dim_client,risk_profile,clients with blank risk_profile (benchmark they sit on),WARN,75,2500,3.0,,benchmark_id values for these clients: {'3': 75}
+4 cross-table,fact_portfolio_snapshot,snapshot_date,snapshot month with no fee row,WARN,7350,129547,5.6736,,"missing fee months: waiver, billing gap, or lost rows"
+4 cross-table,fact_transactions,amount,"Advisory Fee txn total differs from fact_fees total (client-year, >1%)",WARN,10286,10396,98.9419,,median txn/fee ratio 0.796
+4 cross-table,fact_transactions,txn_date,inactive client txn after final snapshot month,WARN,2410,21092,11.4261,,activity after the account appears to have closed
+4 cross-table,fact_transactions,txn_date,Buy/Sell/Dividend dated on a non-trading day,WARN,56146,197175,28.4752,,markets are closed on weekends
+4 cross-table,fact_transactions,price,security price range max/min > 10x,WARN,500,500,100.0,,median max/min ratio 45.8; real prices rarely move 10x in five years
+1 column,dim_advisor,advisor_id,advisor_id >= 1,INFO,0,25,0.0,,
+1 column,dim_advisor,region,region in allowed list,INFO,0,25,0.0,,
+1 column,dim_advisor,years_experience,years_experience >= 0,INFO,0,25,0.0,,
+1 column,dim_advisor,years_experience,years_experience <= 60,INFO,0,25,0.0,,
+1 column,dim_advisor,aum_target_mm,aum_target_mm >= 1,INFO,0,25,0.0,,
+1 column,dim_advisor,aum_target_mm,aum_target_mm <= 1000,INFO,0,25,0.0,,
+1 column,dim_advisor,certifications,certifications matches pattern,INFO,0,25,0.0,,
+1 column,dim_advisor,advisor_id,key uniqueness,INFO,0,25,0.0,,25 distinct of 25 rows
+1 column,dim_advisor,certifications,literal 'None' = no certification,INFO,0,25,0.0,,6 advisors; default pd.read_csv turns this into NaN
+1 column,dim_benchmark,benchmark_id,benchmark_id >= 1,INFO,0,8,0.0,,
+1 column,dim_benchmark,benchmark_id,key uniqueness,INFO,0,8,0.0,,8 distinct of 8 rows
+1 column,dim_client,client_id,client_id >= 1,INFO,0,2525,0.0,,
+1 column,dim_client,age,age >= 18,INFO,0,2525,0.0,,
+1 column,dim_client,age,age <= 110,INFO,0,2525,0.0,,
+1 column,dim_client,zip_code,zip_code matches pattern,INFO,0,2525,0.0,,
+1 column,dim_client,risk_profile,risk_profile in allowed list,INFO,0,2525,0.0,,
+1 column,dim_client,client_tier,client_tier in allowed list,INFO,0,2525,0.0,,
+1 column,dim_client,primary_account_type,primary_account_type in allowed list,INFO,0,2525,0.0,,
+1 column,dim_client,initial_aum,initial_aum > 0,INFO,0,2525,0.0,,
+1 column,dim_client,client_since,client_since >= 2000-01-01,INFO,0,2525,0.0,,
+1 column,dim_client,client_since,client_since <= 2024-12-31,INFO,0,2525,0.0,,
+1 column,dim_client,client_id,key uniqueness,INFO,0,2525,0.0,,2525 distinct of 2525 rows
+1 column,dim_client,zip_code,ZIPs with a leading zero (kept as text),INFO,0,2525,0.0,,232 ZIPs start with 0; numeric parsing would drop it
+1 column,dim_date,date_id,date_id >= 1,INFO,0,1827,0.0,,
+1 column,dim_date,date,date >= 2020-01-01,INFO,0,1827,0.0,,
+1 column,dim_date,date,date <= 2024-12-31,INFO,0,1827,0.0,,
+1 column,dim_date,year,year >= 2020,INFO,0,1827,0.0,,
+1 column,dim_date,year,year <= 2024,INFO,0,1827,0.0,,
+1 column,dim_date,quarter,quarter >= 1,INFO,0,1827,0.0,,
+1 column,dim_date,quarter,quarter <= 4,INFO,0,1827,0.0,,
+1 column,dim_date,month,month >= 1,INFO,0,1827,0.0,,
+1 column,dim_date,month,month <= 12,INFO,0,1827,0.0,,
+1 column,dim_date,month_name,month_name in allowed list,INFO,0,1827,0.0,,
+1 column,dim_date,week_of_year,week_of_year >= 1,INFO,0,1827,0.0,,
+1 column,dim_date,week_of_year,week_of_year <= 53,INFO,0,1827,0.0,,
+1 column,dim_date,day_of_week,day_of_week in allowed list,INFO,0,1827,0.0,,
+1 column,dim_date,date_id,key uniqueness,INFO,0,1827,0.0,,1827 distinct of 1827 rows
+1 column,dim_date,date,key uniqueness,INFO,0,1827,0.0,,1827 distinct of 1827 rows
+1 column,dim_date,is_trading_day,trading day = weekday only (no market holidays),INFO,0,1827,0.0,,1305 trading days; NYSE holidays are marked as trading days
+1 column,dim_security,sector,blank by design (not applicable to these rows),INFO,219,500,43.8,,"legitimate structure, not a defect"
+1 column,dim_security,expense_ratio_bps,blank by design (not applicable to these rows),INFO,281,500,56.2,,"legitimate structure, not a defect"
+1 column,dim_security,security_id,security_id >= 1,INFO,0,500,0.0,,
+1 column,dim_security,ticker,ticker matches pattern,INFO,0,500,0.0,,
+1 column,dim_security,asset_class,asset_class in allowed list,INFO,0,500,0.0,,
+1 column,dim_security,sector,sector blank when not applicable,INFO,0,500,0.0,,
+1 column,dim_security,expense_ratio_bps,expense_ratio_bps >= 0,INFO,0,500,0.0,,
+1 column,dim_security,expense_ratio_bps,expense_ratio_bps <= 300,INFO,0,500,0.0,,
+1 column,dim_security,expense_ratio_bps,expense_ratio_bps blank when not applicable,INFO,0,500,0.0,,
+1 column,dim_security,security_id,key uniqueness,INFO,0,500,0.0,,500 distinct of 500 rows
+1 column,dim_security,ticker,key uniqueness,INFO,0,500,0.0,,500 distinct of 500 rows
+1 column,fact_fees,fee_id,fee_id >= 1,INFO,0,122197,0.0,,
+1 column,fact_fees,fee_type,fee_type in allowed list,INFO,0,122197,0.0,,
+1 column,fact_fees,aum_basis,aum_basis > 0,INFO,0,122197,0.0,,
+1 column,fact_fees,bps_charged,bps_charged <= 300,INFO,0,122197,0.0,,
+1 column,fact_fees,bps_charged,bps_charged > 0,INFO,0,122197,0.0,,
+1 column,fact_fees,amount,amount > 0,INFO,0,122197,0.0,,
+1 column,fact_fees,fee_id,key uniqueness,INFO,0,122197,0.0,,122197 distinct of 122197 rows
+1 column,fact_portfolio_snapshot,snapshot_id,snapshot_id >= 1,INFO,0,129547,0.0,,
+1 column,fact_portfolio_snapshot,year,year >= 2020,INFO,0,129547,0.0,,
+1 column,fact_portfolio_snapshot,year,year <= 2024,INFO,0,129547,0.0,,
+1 column,fact_portfolio_snapshot,month,month >= 1,INFO,0,129547,0.0,,
+1 column,fact_portfolio_snapshot,month,month <= 12,INFO,0,129547,0.0,,
+1 column,fact_portfolio_snapshot,aum,aum > 0,INFO,0,129547,0.0,,
+1 column,fact_portfolio_snapshot,return_ytd,return_ytd >= -1,INFO,0,129547,0.0,,
+1 column,fact_portfolio_snapshot,benchmark_return_ytd,benchmark_return_ytd >= -1,INFO,0,129547,0.0,,
+1 column,fact_portfolio_snapshot,cash_pct,cash_pct >= 0,INFO,0,129547,0.0,,
+1 column,fact_portfolio_snapshot,cash_pct,cash_pct <= 1,INFO,0,129547,0.0,,
+1 column,fact_portfolio_snapshot,account_type,account_type in allowed list,INFO,0,129547,0.0,,
+1 column,fact_portfolio_snapshot,snapshot_id,key uniqueness,INFO,0,129547,0.0,,129547 distinct of 129547 rows
+1 column,fact_portfolio_snapshot,return_ytd / active_alpha_ytd,"scientific notation (valid floats, e.g. 1.2e-05)",INFO,0,129547,0.0,,891 cells
+1 column,fact_transactions,security_id,blank by design (not applicable to these rows),INFO,101597,298772,34.0049,,"legitimate structure, not a defect"
+1 column,fact_transactions,shares,blank by design (not applicable to these rows),INFO,101597,298772,34.0049,,"legitimate structure, not a defect"
+1 column,fact_transactions,price,blank by design (not applicable to these rows),INFO,101597,298772,34.0049,,"legitimate structure, not a defect"
+1 column,fact_transactions,txn_id,txn_id >= 1,INFO,0,298772,0.0,,
+1 column,fact_transactions,security_id,security_id blank when not applicable,INFO,0,298772,0.0,,
+1 column,fact_transactions,txn_type,txn_type in allowed list,INFO,0,298772,0.0,,
+1 column,fact_transactions,shares,shares blank when not applicable,INFO,0,298772,0.0,,
+1 column,fact_transactions,price,price > 0,INFO,0,298772,0.0,,
+1 column,fact_transactions,price,price blank when not applicable,INFO,0,298772,0.0,,
+1 column,fact_transactions,amount,amount > 0,INFO,0,298772,0.0,,
+1 column,fact_transactions,txn_id,key uniqueness,INFO,0,298772,0.0,,298772 distinct of 298772 rows
+2 single-table,dim_advisor,*,exact duplicate rows (ignoring key),INFO,0,25,0.0,,
+2 single-table,dim_benchmark,*,exact duplicate rows (ignoring key),INFO,0,8,0.0,,
+2 single-table,dim_client,*,exact duplicate rows (ignoring key),INFO,0,2525,0.0,,
+2 single-table,dim_client,client_tier,client_tier matches initial_aum band,INFO,0,2525,0.0,[],
+2 single-table,dim_date,*,exact duplicate rows (ignoring key),INFO,0,1827,0.0,,
+2 single-table,dim_date,year,year matches date,INFO,0,1827,0.0,[],
+2 single-table,dim_date,quarter,quarter matches date,INFO,0,1827,0.0,[],
+2 single-table,dim_date,month,month matches date,INFO,0,1827,0.0,[],
+2 single-table,dim_date,week_of_year,week_of_year matches date,INFO,0,1827,0.0,[],
+2 single-table,dim_date,is_month_end,is_month_end matches date,INFO,0,1827,0.0,[],
+2 single-table,dim_date,is_quarter_end,is_quarter_end matches date,INFO,0,1827,0.0,[],
+2 single-table,dim_date,is_year_end,is_year_end matches date,INFO,0,1827,0.0,[],
+2 single-table,dim_date,is_trading_day,is_trading_day matches date,INFO,0,1827,0.0,[],
+2 single-table,dim_date,month_name,month_name matches date,INFO,0,1827,0.0,[],
+2 single-table,dim_date,day_of_week,day_of_week matches date,INFO,0,1827,0.0,[],
+2 single-table,dim_security,*,exact duplicate rows (ignoring key),INFO,0,500,0.0,,
+2 single-table,dim_security,is_etf,is_etf True for every non-equity fund,INFO,0,500,0.0,[],
+2 single-table,fact_fees,*,exact duplicate rows (ignoring key),INFO,0,122197,0.0,,
+2 single-table,fact_fees,amount,amount = aum_basis x bps / 10000 / 12,INFO,0,122197,0.0,[],
+2 single-table,fact_portfolio_snapshot,*,exact duplicate rows (ignoring key),INFO,0,129547,0.0,,
+2 single-table,fact_portfolio_snapshot,snapshot_date,year/month match snapshot_date,INFO,0,129547,0.0,[],
+2 single-table,fact_portfolio_snapshot,snapshot_date,snapshot_date is first of month,INFO,0,129547,0.0,[],
+2 single-table,fact_portfolio_snapshot,active_alpha_ytd,active_alpha = return - benchmark_return,INFO,0,129547,0.0,[],
+2 single-table,fact_transactions,*,exact duplicate rows (ignoring key),INFO,0,298772,0.0,,
+2 single-table,fact_transactions,amount,amount = |shares| x price (trades),INFO,0,298772,0.0,[],
+3 referential,dim_benchmark,benchmark_id,dim_benchmark members never used by dim_security.benchmark_id,INFO,2,8,25.0,6; 8,unused dimension members are fine; listed for awareness
+3 referential,dim_benchmark,benchmark_id,dim_benchmark members never used by fact_portfolio_snapshot.benchmark_id,INFO,5,8,62.5,2; 4; 5; 6; 7,unused dimension members are fine; listed for awareness
+3 referential,dim_client,advisor_id,advisor_id -> dim_advisor.advisor_id,INFO,0,2525,0.0,,match 100.0000%; null-key rate 0.0000%; 0 distinct orphan keys
+3 referential,dim_client,client_id,dim_client members never used by fact_fees.client_id,INFO,25,2525,0.9901,2501; 2502; 2503; 2504; 2505; 2506,unused dimension members are fine; listed for awareness
+3 referential,dim_client,client_id,dim_client members never used by fact_portfolio_snapshot.client_id,INFO,25,2525,0.9901,2501; 2502; 2503; 2504; 2505; 2506,unused dimension members are fine; listed for awareness
+3 referential,dim_client,client_id,dim_client members never used by fact_transactions.client_id,INFO,25,2525,0.9901,2501; 2502; 2503; 2504; 2505; 2506,unused dimension members are fine; listed for awareness
+3 referential,dim_security,benchmark_id,benchmark_id -> dim_benchmark.benchmark_id,INFO,0,500,0.0,,match 100.0000%; null-key rate 0.0000%; 0 distinct orphan keys
+3 referential,dim_security,security_id,dim_security members never used by fact_transactions.security_id,INFO,500,500,100.0,1; 2; 3; 4; 5; 6,unused dimension members are fine; listed for awareness
+3 referential,fact_fees,client_id,client_id -> dim_client.client_id,INFO,0,122197,0.0,,match 100.0000%; null-key rate 0.0000%; 0 distinct orphan keys
+3 referential,fact_fees,advisor_id,advisor_id -> dim_advisor.advisor_id,INFO,0,122197,0.0,,match 100.0000%; null-key rate 0.0000%; 0 distinct orphan keys
+3 referential,fact_fees,fee_date,fee_date -> dim_date.date,INFO,0,122197,0.0,,match 100.0000%; null-key rate 0.0000%; 0 distinct orphan keys
+3 referential,fact_portfolio_snapshot,client_id,client_id -> dim_client.client_id,INFO,0,129547,0.0,,match 100.0000%; null-key rate 0.0000%; 0 distinct orphan keys
+3 referential,fact_portfolio_snapshot,advisor_id,advisor_id -> dim_advisor.advisor_id,INFO,0,129547,0.0,,match 100.0000%; null-key rate 0.0000%; 0 distinct orphan keys
+3 referential,fact_portfolio_snapshot,benchmark_id,benchmark_id -> dim_benchmark.benchmark_id,INFO,0,129547,0.0,,match 100.0000%; null-key rate 0.0000%; 0 distinct orphan keys
+3 referential,fact_portfolio_snapshot,snapshot_date,snapshot_date -> dim_date.date,INFO,0,129547,0.0,,match 100.0000%; null-key rate 0.0000%; 0 distinct orphan keys
+3 referential,fact_transactions,advisor_id,advisor_id -> dim_advisor.advisor_id,INFO,0,298772,0.0,,match 100.0000%; null-key rate 0.0000%; 0 distinct orphan keys
+3 referential,fact_transactions,security_id,null foreign keys,INFO,101597,298772,34.0049,,check whether nulls are structural (see group 1)
+3 referential,fact_transactions,txn_date,txn_date -> dim_date.date,INFO,0,298772,0.0,,match 100.0000%; null-key rate 0.0000%; 0 distinct orphan keys
+4 cross-table,fact_fees,advisor_id,advisor_id differs from dim_client.advisor_id,INFO,0,122197,0.0,,a client's fact rows should carry the client's assigned advisor
+4 cross-table,fact_fees,fee_date,fee row with no snapshot for the same client-month,INFO,0,122197,0.0,,fees should be charged on a month the account existed
+4 cross-table,fact_fees,aum_basis,fee aum_basis differs from snapshot aum (same client-month),INFO,0,122197,0.0,,two systems describing the same balance
+4 cross-table,fact_fees,fee_date,fee_date before client_since month,INFO,0,122197,0.0,,activity before onboarding
+4 cross-table,fact_portfolio_snapshot,advisor_id,advisor_id differs from dim_client.advisor_id,INFO,0,129547,0.0,,a client's fact rows should carry the client's assigned advisor
+4 cross-table,fact_portfolio_snapshot,account_type,account_type differs from dim_client.primary_account_type,INFO,0,129547,0.0,,snapshot account type vs client master
+4 cross-table,fact_portfolio_snapshot,benchmark_id,clients with more than one benchmark_id,INFO,0,2500,0.0,,clients whose benchmark changes across snapshots
+4 cross-table,fact_portfolio_snapshot,benchmark_id,"benchmark_id disagrees with risk_profile (Agg->1, Bal->3, Cons->8)",INFO,0,2500,0.0,,mapping observed in the data; clients with blank risk_profile are excluded
+4 cross-table,fact_portfolio_snapshot,snapshot_date,snapshot_date before client_since month,INFO,0,129547,0.0,,activity before onboarding
+4 cross-table,fact_portfolio_snapshot,snapshot_date,active client whose snapshots stop before the last month,INFO,0,2325,0.0,,is_active vs snapshot coverage
+4 cross-table,fact_transactions,advisor_id,advisor_id differs from dim_client.advisor_id,INFO,0,298572,0.0,,a client's fact rows should carry the client's assigned advisor
+4 cross-table,fact_transactions,txn_date,txn_date before client_since month,INFO,0,298572,0.0,,activity before onboarding
+4 cross-table,fact_transactions,shares,positions where shares sold exceed shares bought,INFO,15175,38813,39.0977,,positions opened before 2020 would explain this; extract starts 2020-01-01

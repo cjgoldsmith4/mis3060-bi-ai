@@ -1,0 +1,6 @@
+# The repo-wide .gitignore excludes *.csv; HW4 deliverables (clean tables,
+# audit trail, reports) are CSVs, so re-include them inside hw04/.
+!*.csv
+# Raw extract is the course-provided source; copy it in from "Wildcat Capital/".
+data/raw/
+__pycache__/
