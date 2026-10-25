@@ -1,0 +1,17 @@
+stage,reconciliation,rows_compared,rows_unparseable,rows_failed,pass_pct,max_abs_diff,tolerance,note
+raw,txn amount = shares x price (signed),197175,0,836,99.576,479263.017646,0.011,signed shares: a negative share count makes the product negative
+raw,txn amount = |shares| x price,197175,0,0,100.0,0.005,0.011,sign ignored
+raw,fee amount = aum_basis x bps / 10000 / 12,122197,0,0,100.0,0.0,0.011,monthly fee
+raw,fee aum_basis = snapshot aum (client-month),122197,0,0,100.0,0.0,0.011,fact_fees vs fact_portfolio_snapshot
+raw,return_ytd = benchmark_return_ytd + active_alpha_ytd,129247,300,0,100.0,1e-06,5.1e-05,tolerance covers 2-decimal percent strings converted in cleaning
+raw,fact_fees.advisor_id = dim_client.advisor_id,122197,0,0,100.0,0.0,0.0,unmatched clients count as unparseable
+raw,fact_portfolio_snapshot.advisor_id = dim_client.advisor_id,129547,0,0,100.0,0.0,0.0,unmatched clients count as unparseable
+raw,fact_transactions.advisor_id = dim_client.advisor_id,298572,200,0,100.0,0.0,0.0,unmatched clients count as unparseable
+clean,txn amount = shares x price (signed),197044,0,0,100.0,0.005,0.011,signed shares: a negative share count makes the product negative
+clean,txn amount = |shares| x price,197044,0,0,100.0,0.005,0.011,sign ignored
+clean,fee amount = aum_basis x bps / 10000 / 12,122197,0,0,100.0,0.0,0.011,monthly fee
+clean,fee aum_basis = snapshot aum (client-month),122197,0,0,100.0,0.0,0.011,fact_fees vs fact_portfolio_snapshot
+clean,return_ytd = benchmark_return_ytd + active_alpha_ytd,129547,0,0,100.0,1e-06,5.1e-05,tolerance covers 2-decimal percent strings converted in cleaning
+clean,fact_fees.advisor_id = dim_client.advisor_id,122197,0,0,100.0,0.0,0.0,unmatched clients count as unparseable
+clean,fact_portfolio_snapshot.advisor_id = dim_client.advisor_id,129547,0,0,100.0,0.0,0.0,unmatched clients count as unparseable
+clean,fact_transactions.advisor_id = dim_client.advisor_id,298572,0,0,100.0,0.0,0.0,unmatched clients count as unparseable

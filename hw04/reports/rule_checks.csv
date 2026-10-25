@@ -1,0 +1,163 @@
+stage,table,column,rule,kind,rows,failures,pass_pct
+raw,dim_advisor,advisor_id,advisor_id >= 1,column bound / code list,25,0,100.0
+raw,dim_advisor,region,region in allowed list,column bound / code list,25,0,100.0
+raw,dim_advisor,years_experience,years_experience >= 0,column bound / code list,25,0,100.0
+raw,dim_advisor,years_experience,years_experience <= 60,column bound / code list,25,0,100.0
+raw,dim_advisor,aum_target_mm,aum_target_mm >= 1,column bound / code list,25,0,100.0
+raw,dim_advisor,aum_target_mm,aum_target_mm <= 1000,column bound / code list,25,0,100.0
+raw,dim_advisor,certifications,certifications matches pattern,column bound / code list,25,0,100.0
+raw,dim_client,client_id,client_id >= 1,column bound / code list,2525,0,100.0
+raw,dim_client,age,age >= 18,column bound / code list,2525,0,100.0
+raw,dim_client,age,age <= 110,column bound / code list,2525,0,100.0
+raw,dim_client,state,state in allowed list,column bound / code list,2525,78,96.9109
+raw,dim_client,zip_code,zip_code matches pattern,column bound / code list,2525,0,100.0
+raw,dim_client,risk_profile,risk_profile in allowed list,column bound / code list,2525,0,100.0
+raw,dim_client,client_tier,client_tier in allowed list,column bound / code list,2525,0,100.0
+raw,dim_client,primary_account_type,primary_account_type in allowed list,column bound / code list,2525,0,100.0
+raw,dim_client,initial_aum,initial_aum > 0,column bound / code list,2525,0,100.0
+raw,dim_client,client_since,client_since >= 2000-01-01,column bound / code list,2525,0,100.0
+raw,dim_client,client_since,client_since <= 2024-12-31,column bound / code list,2525,0,100.0
+raw,dim_client,client_tier,client_tier matches initial_aum band,in-row consistency,2525,0,100.0
+raw,dim_date,date_id,date_id >= 1,column bound / code list,1827,0,100.0
+raw,dim_date,date,date >= 2020-01-01,column bound / code list,1827,0,100.0
+raw,dim_date,date,date <= 2024-12-31,column bound / code list,1827,0,100.0
+raw,dim_date,year,year >= 2020,column bound / code list,1827,0,100.0
+raw,dim_date,year,year <= 2024,column bound / code list,1827,0,100.0
+raw,dim_date,quarter,quarter >= 1,column bound / code list,1827,0,100.0
+raw,dim_date,quarter,quarter <= 4,column bound / code list,1827,0,100.0
+raw,dim_date,month,month >= 1,column bound / code list,1827,0,100.0
+raw,dim_date,month,month <= 12,column bound / code list,1827,0,100.0
+raw,dim_date,month_name,month_name in allowed list,column bound / code list,1827,0,100.0
+raw,dim_date,week_of_year,week_of_year >= 1,column bound / code list,1827,0,100.0
+raw,dim_date,week_of_year,week_of_year <= 53,column bound / code list,1827,0,100.0
+raw,dim_date,day_of_week,day_of_week in allowed list,column bound / code list,1827,0,100.0
+raw,dim_date,year,year matches date,in-row consistency,1827,0,100.0
+raw,dim_date,quarter,quarter matches date,in-row consistency,1827,0,100.0
+raw,dim_date,month,month matches date,in-row consistency,1827,0,100.0
+raw,dim_date,week_of_year,week_of_year matches date,in-row consistency,1827,0,100.0
+raw,dim_date,is_month_end,is_month_end matches date,in-row consistency,1827,0,100.0
+raw,dim_date,is_quarter_end,is_quarter_end matches date,in-row consistency,1827,0,100.0
+raw,dim_date,is_year_end,is_year_end matches date,in-row consistency,1827,0,100.0
+raw,dim_date,is_trading_day,is_trading_day matches date,in-row consistency,1827,0,100.0
+raw,dim_date,month_name,month_name matches date,in-row consistency,1827,0,100.0
+raw,dim_date,day_of_week,day_of_week matches date,in-row consistency,1827,0,100.0
+raw,dim_security,security_id,security_id >= 1,column bound / code list,500,0,100.0
+raw,dim_security,ticker,ticker matches pattern,column bound / code list,500,0,100.0
+raw,dim_security,asset_class,asset_class in allowed list,column bound / code list,500,0,100.0
+raw,dim_security,sector,sector blank when not applicable,column bound / code list,500,0,100.0
+raw,dim_security,expense_ratio_bps,expense_ratio_bps >= 0,column bound / code list,500,0,100.0
+raw,dim_security,expense_ratio_bps,expense_ratio_bps <= 300,column bound / code list,500,0,100.0
+raw,dim_security,expense_ratio_bps,expense_ratio_bps blank when not applicable,column bound / code list,500,0,100.0
+raw,dim_security,is_etf,is_etf True for every non-equity fund,in-row consistency,500,0,100.0
+raw,dim_benchmark,benchmark_id,benchmark_id >= 1,column bound / code list,8,0,100.0
+raw,fact_fees,fee_id,fee_id >= 1,column bound / code list,122197,0,100.0
+raw,fact_fees,fee_type,fee_type in allowed list,column bound / code list,122197,0,100.0
+raw,fact_fees,aum_basis,aum_basis > 0,column bound / code list,122197,0,100.0
+raw,fact_fees,bps_charged,bps_charged <= 300,column bound / code list,122197,0,100.0
+raw,fact_fees,bps_charged,bps_charged > 0,column bound / code list,122197,0,100.0
+raw,fact_fees,amount,amount > 0,column bound / code list,122197,0,100.0
+raw,fact_fees,amount,amount = aum_basis x bps / 10000 / 12,in-row consistency,122197,0,100.0
+raw,fact_portfolio_snapshot,snapshot_id,snapshot_id >= 1,column bound / code list,129547,0,100.0
+raw,fact_portfolio_snapshot,year,year >= 2020,column bound / code list,129547,0,100.0
+raw,fact_portfolio_snapshot,year,year <= 2024,column bound / code list,129547,0,100.0
+raw,fact_portfolio_snapshot,month,month >= 1,column bound / code list,129547,0,100.0
+raw,fact_portfolio_snapshot,month,month <= 12,column bound / code list,129547,0,100.0
+raw,fact_portfolio_snapshot,aum,aum > 0,column bound / code list,129547,0,100.0
+raw,fact_portfolio_snapshot,return_ytd,return_ytd >= -1,column bound / code list,129547,0,100.0
+raw,fact_portfolio_snapshot,benchmark_return_ytd,benchmark_return_ytd >= -1,column bound / code list,129547,0,100.0
+raw,fact_portfolio_snapshot,cash_pct,cash_pct >= 0,column bound / code list,129547,0,100.0
+raw,fact_portfolio_snapshot,cash_pct,cash_pct <= 1,column bound / code list,129547,0,100.0
+raw,fact_portfolio_snapshot,account_type,account_type in allowed list,column bound / code list,129547,0,100.0
+raw,fact_portfolio_snapshot,snapshot_date,year/month match snapshot_date,in-row consistency,129547,0,100.0
+raw,fact_portfolio_snapshot,snapshot_date,snapshot_date is first of month,in-row consistency,129547,0,100.0
+raw,fact_portfolio_snapshot,active_alpha_ytd,active_alpha = return - benchmark_return,in-row consistency,129547,0,100.0
+raw,fact_transactions,txn_id,txn_id >= 1,column bound / code list,298772,0,100.0
+raw,fact_transactions,security_id,security_id blank when not applicable,column bound / code list,298772,0,100.0
+raw,fact_transactions,txn_type,txn_type in allowed list,column bound / code list,298772,0,100.0
+raw,fact_transactions,shares,shares > 0,column bound / code list,298772,836,99.7202
+raw,fact_transactions,shares,shares blank when not applicable,column bound / code list,298772,0,100.0
+raw,fact_transactions,price,price > 0,column bound / code list,298772,0,100.0
+raw,fact_transactions,price,price blank when not applicable,column bound / code list,298772,0,100.0
+raw,fact_transactions,amount,amount > 0,column bound / code list,298772,0,100.0
+raw,fact_transactions,amount,amount = |shares| x price (trades),in-row consistency,298772,0,100.0
+clean,dim_advisor,advisor_id,advisor_id >= 1,column bound / code list,25,0,100.0
+clean,dim_advisor,region,region in allowed list,column bound / code list,25,0,100.0
+clean,dim_advisor,years_experience,years_experience >= 0,column bound / code list,25,0,100.0
+clean,dim_advisor,years_experience,years_experience <= 60,column bound / code list,25,0,100.0
+clean,dim_advisor,aum_target_mm,aum_target_mm >= 1,column bound / code list,25,0,100.0
+clean,dim_advisor,aum_target_mm,aum_target_mm <= 1000,column bound / code list,25,0,100.0
+clean,dim_advisor,certifications,certifications matches pattern,column bound / code list,25,0,100.0
+clean,dim_client,client_id,client_id >= 1,column bound / code list,2500,0,100.0
+clean,dim_client,age,age >= 18,column bound / code list,2500,0,100.0
+clean,dim_client,age,age <= 110,column bound / code list,2500,0,100.0
+clean,dim_client,state,state in allowed list,column bound / code list,2500,0,100.0
+clean,dim_client,zip_code,zip_code matches pattern,column bound / code list,2500,0,100.0
+clean,dim_client,risk_profile,risk_profile in allowed list,column bound / code list,2500,0,100.0
+clean,dim_client,client_tier,client_tier in allowed list,column bound / code list,2500,0,100.0
+clean,dim_client,primary_account_type,primary_account_type in allowed list,column bound / code list,2500,0,100.0
+clean,dim_client,initial_aum,initial_aum > 0,column bound / code list,2500,0,100.0
+clean,dim_client,client_since,client_since >= 2000-01-01,column bound / code list,2500,0,100.0
+clean,dim_client,client_since,client_since <= 2024-12-31,column bound / code list,2500,0,100.0
+clean,dim_client,client_tier,client_tier matches initial_aum band,in-row consistency,2500,0,100.0
+clean,dim_date,date_id,date_id >= 1,column bound / code list,1827,0,100.0
+clean,dim_date,date,date >= 2020-01-01,column bound / code list,1827,0,100.0
+clean,dim_date,date,date <= 2024-12-31,column bound / code list,1827,0,100.0
+clean,dim_date,year,year >= 2020,column bound / code list,1827,0,100.0
+clean,dim_date,year,year <= 2024,column bound / code list,1827,0,100.0
+clean,dim_date,quarter,quarter >= 1,column bound / code list,1827,0,100.0
+clean,dim_date,quarter,quarter <= 4,column bound / code list,1827,0,100.0
+clean,dim_date,month,month >= 1,column bound / code list,1827,0,100.0
+clean,dim_date,month,month <= 12,column bound / code list,1827,0,100.0
+clean,dim_date,month_name,month_name in allowed list,column bound / code list,1827,0,100.0
+clean,dim_date,week_of_year,week_of_year >= 1,column bound / code list,1827,0,100.0
+clean,dim_date,week_of_year,week_of_year <= 53,column bound / code list,1827,0,100.0
+clean,dim_date,day_of_week,day_of_week in allowed list,column bound / code list,1827,0,100.0
+clean,dim_date,year,year matches date,in-row consistency,1827,0,100.0
+clean,dim_date,quarter,quarter matches date,in-row consistency,1827,0,100.0
+clean,dim_date,month,month matches date,in-row consistency,1827,0,100.0
+clean,dim_date,week_of_year,week_of_year matches date,in-row consistency,1827,0,100.0
+clean,dim_date,is_month_end,is_month_end matches date,in-row consistency,1827,0,100.0
+clean,dim_date,is_quarter_end,is_quarter_end matches date,in-row consistency,1827,0,100.0
+clean,dim_date,is_year_end,is_year_end matches date,in-row consistency,1827,0,100.0
+clean,dim_date,is_trading_day,is_trading_day matches date,in-row consistency,1827,0,100.0
+clean,dim_date,month_name,month_name matches date,in-row consistency,1827,0,100.0
+clean,dim_date,day_of_week,day_of_week matches date,in-row consistency,1827,0,100.0
+clean,dim_security,security_id,security_id >= 1,column bound / code list,500,0,100.0
+clean,dim_security,ticker,ticker matches pattern,column bound / code list,500,0,100.0
+clean,dim_security,asset_class,asset_class in allowed list,column bound / code list,500,0,100.0
+clean,dim_security,sector,sector blank when not applicable,column bound / code list,500,0,100.0
+clean,dim_security,expense_ratio_bps,expense_ratio_bps >= 0,column bound / code list,500,0,100.0
+clean,dim_security,expense_ratio_bps,expense_ratio_bps <= 300,column bound / code list,500,0,100.0
+clean,dim_security,expense_ratio_bps,expense_ratio_bps blank when not applicable,column bound / code list,500,0,100.0
+clean,dim_security,is_etf,is_etf True for every non-equity fund,in-row consistency,500,0,100.0
+clean,dim_benchmark,benchmark_id,benchmark_id >= 1,column bound / code list,8,0,100.0
+clean,fact_fees,fee_id,fee_id >= 1,column bound / code list,122197,0,100.0
+clean,fact_fees,fee_type,fee_type in allowed list,column bound / code list,122197,0,100.0
+clean,fact_fees,aum_basis,aum_basis > 0,column bound / code list,122197,0,100.0
+clean,fact_fees,bps_charged,bps_charged <= 300,column bound / code list,122197,0,100.0
+clean,fact_fees,bps_charged,bps_charged > 0,column bound / code list,122197,0,100.0
+clean,fact_fees,amount,amount > 0,column bound / code list,122197,0,100.0
+clean,fact_fees,amount,amount = aum_basis x bps / 10000 / 12,in-row consistency,122197,0,100.0
+clean,fact_portfolio_snapshot,snapshot_id,snapshot_id >= 1,column bound / code list,129547,0,100.0
+clean,fact_portfolio_snapshot,year,year >= 2020,column bound / code list,129547,0,100.0
+clean,fact_portfolio_snapshot,year,year <= 2024,column bound / code list,129547,0,100.0
+clean,fact_portfolio_snapshot,month,month >= 1,column bound / code list,129547,0,100.0
+clean,fact_portfolio_snapshot,month,month <= 12,column bound / code list,129547,0,100.0
+clean,fact_portfolio_snapshot,aum,aum > 0,column bound / code list,129547,0,100.0
+clean,fact_portfolio_snapshot,return_ytd,return_ytd >= -1,column bound / code list,129547,0,100.0
+clean,fact_portfolio_snapshot,benchmark_return_ytd,benchmark_return_ytd >= -1,column bound / code list,129547,0,100.0
+clean,fact_portfolio_snapshot,cash_pct,cash_pct >= 0,column bound / code list,129547,0,100.0
+clean,fact_portfolio_snapshot,cash_pct,cash_pct <= 1,column bound / code list,129547,0,100.0
+clean,fact_portfolio_snapshot,account_type,account_type in allowed list,column bound / code list,129547,0,100.0
+clean,fact_portfolio_snapshot,snapshot_date,year/month match snapshot_date,in-row consistency,129547,0,100.0
+clean,fact_portfolio_snapshot,snapshot_date,snapshot_date is first of month,in-row consistency,129547,0,100.0
+clean,fact_portfolio_snapshot,active_alpha_ytd,active_alpha = return - benchmark_return,in-row consistency,129547,0,100.0
+clean,fact_transactions,txn_id,txn_id >= 1,column bound / code list,298572,0,100.0
+clean,fact_transactions,security_id,security_id blank when not applicable,column bound / code list,298572,0,100.0
+clean,fact_transactions,txn_type,txn_type in allowed list,column bound / code list,298572,0,100.0
+clean,fact_transactions,shares,shares > 0,column bound / code list,298572,0,100.0
+clean,fact_transactions,shares,shares blank when not applicable,column bound / code list,298572,0,100.0
+clean,fact_transactions,price,price > 0,column bound / code list,298572,0,100.0
+clean,fact_transactions,price,price blank when not applicable,column bound / code list,298572,0,100.0
+clean,fact_transactions,amount,amount > 0,column bound / code list,298572,0,100.0
+clean,fact_transactions,amount,amount = |shares| x price (trades),in-row consistency,298572,0,100.0
