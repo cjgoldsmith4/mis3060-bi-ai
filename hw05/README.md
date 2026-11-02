@@ -77,7 +77,7 @@ Claude drafted the script and a Claude Code review pass checked it before the co
 
 ## Part D note
 
-`hw05.pbix` and `model_view.png` come from Power BI Desktop on the Apporto virtual desktop. If the `.pbix` exceeds GitHub's 100 MB limit, it goes to Brightspace instead and this line will say so.
+`hw05.pbix` (21.9 MB, under GitHub's 100 MB limit) and `model_view.png` come from Power BI Desktop on the Apporto virtual desktop. The model holds 13 relationships: 11 active, plus `dim_client[advisor_id]` and `dim_security[benchmark_id]` as inactive. `dim_date` is marked as the date table on `date`. Table view row counts match `reports/row_counts.csv` for all eight tables.
 
 ## Commits
 

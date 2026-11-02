@@ -104,7 +104,7 @@ Each grain holds in the data. This is because `grain_checks.csv` finds zero dupl
 | 12 | dim_client[advisor_id] | dim_advisor[advisor_id] | \*:1 | Single | No |
 | 13 | dim_security[benchmark_id] | dim_benchmark[benchmark_id] | \*:1 | Single | No |
 
-`dim_date` is marked as the date table on `dim_date[date]`. Column types follow `reports/powerbi_types.csv` (one row for each of the 77 columns). The row-count cards on the report page reconcile to `reports/row_counts.csv`.
+`dim_date` is marked as the date table on `dim_date[date]`. Column types follow `reports/powerbi_types.csv` (one row for each of the 77 columns). The row counts Power BI shows in Table view reconcile to `reports/row_counts.csv`: 25 advisors, 8 benchmarks, 2,500 clients, 1,827 dates, 500 securities, 122,197 fees, 129,547 snapshots and 298,572 transactions.
 
 ---
 
