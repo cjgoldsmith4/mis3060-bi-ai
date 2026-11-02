@@ -1,0 +1,78 @@
+table,column,power_query_type,blank
+dim_advisor,advisor_id,Whole Number,0
+dim_advisor,first_name,Text,0
+dim_advisor,last_name,Text,0
+dim_advisor,region,Text,0
+dim_advisor,years_experience,Whole Number,0
+dim_advisor,aum_target_mm,Whole Number,0
+dim_advisor,certifications,Text,0
+dim_benchmark,benchmark_id,Whole Number,0
+dim_benchmark,name,Text,0
+dim_benchmark,asset_class,Text,0
+dim_benchmark,ticker_proxy,Text,0
+dim_client,client_id,Whole Number,0
+dim_client,first_name,Text,0
+dim_client,last_name,Text,0
+dim_client,age,Whole Number,0
+dim_client,city,Text,0
+dim_client,state,Text,0
+dim_client,zip_code,Text,0
+dim_client,risk_profile,Text,0
+dim_client,client_tier,Text,0
+dim_client,primary_account_type,Text,0
+dim_client,initial_aum,Decimal Number,0
+dim_client,client_since,Date,0
+dim_client,advisor_id,Whole Number,0
+dim_client,is_active,True/False,0
+dim_date,date_id,Whole Number,0
+dim_date,date,Date,0
+dim_date,year,Whole Number,0
+dim_date,quarter,Whole Number,0
+dim_date,month,Whole Number,0
+dim_date,month_name,Text,0
+dim_date,week_of_year,Whole Number,0
+dim_date,day_of_week,Text,0
+dim_date,is_month_end,Whole Number,0
+dim_date,is_quarter_end,Whole Number,0
+dim_date,is_year_end,Whole Number,0
+dim_date,is_trading_day,Whole Number,0
+dim_security,security_id,Whole Number,0
+dim_security,ticker,Text,0
+dim_security,name,Text,0
+dim_security,asset_class,Text,0
+dim_security,sector,Text,219
+dim_security,benchmark_id,Whole Number,0
+dim_security,is_etf,True/False,0
+dim_security,expense_ratio_bps,Decimal Number,281
+fact_fees,fee_id,Whole Number,0
+fact_fees,client_id,Whole Number,0
+fact_fees,advisor_id,Whole Number,0
+fact_fees,fee_date,Date,0
+fact_fees,fee_type,Text,0
+fact_fees,aum_basis,Decimal Number,0
+fact_fees,bps_charged,Decimal Number,0
+fact_fees,amount,Decimal Number,0
+fact_portfolio_snapshot,snapshot_id,Whole Number,0
+fact_portfolio_snapshot,client_id,Whole Number,0
+fact_portfolio_snapshot,advisor_id,Whole Number,0
+fact_portfolio_snapshot,benchmark_id,Whole Number,0
+fact_portfolio_snapshot,snapshot_date,Date,0
+fact_portfolio_snapshot,year,Whole Number,0
+fact_portfolio_snapshot,month,Whole Number,0
+fact_portfolio_snapshot,aum,Decimal Number,0
+fact_portfolio_snapshot,return_ytd,Decimal Number,0
+fact_portfolio_snapshot,benchmark_return_ytd,Decimal Number,0
+fact_portfolio_snapshot,active_alpha_ytd,Decimal Number,0
+fact_portfolio_snapshot,cash_pct,Decimal Number,0
+fact_portfolio_snapshot,account_type,Text,0
+fact_portfolio_snapshot,is_return_suspect,Whole Number,0
+fact_transactions,txn_id,Whole Number,0
+fact_transactions,client_id,Whole Number,0
+fact_transactions,advisor_id,Whole Number,0
+fact_transactions,security_id,Whole Number,101528
+fact_transactions,txn_date,Date,0
+fact_transactions,txn_type,Text,0
+fact_transactions,shares,Decimal Number,101528
+fact_transactions,price,Decimal Number,101528
+fact_transactions,amount,Decimal Number,0
+fact_transactions,is_post_departure_txn,Whole Number,0

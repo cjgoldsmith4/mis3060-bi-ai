@@ -1,0 +1,9 @@
+table,primary_key,rows,distinct,blank,whole_number,unique
+dim_advisor,advisor_id,25,25,0,True,True
+dim_benchmark,benchmark_id,8,8,0,True,True
+dim_client,client_id,2500,2500,0,True,True
+dim_date,date_id,1827,1827,0,True,True
+dim_security,security_id,500,500,0,True,True
+fact_fees,fee_id,122197,122197,0,True,True
+fact_portfolio_snapshot,snapshot_id,129547,129547,0,True,True
+fact_transactions,txn_id,298572,298572,0,True,True

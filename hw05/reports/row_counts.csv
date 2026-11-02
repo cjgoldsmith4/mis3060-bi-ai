@@ -1,0 +1,9 @@
+table,rows,expected_rows,cols,expected_cols,match
+dim_advisor,25,25,7,7,True
+dim_benchmark,8,8,4,4,True
+dim_client,2500,2500,14,14,True
+dim_date,1827,1827,12,12,True
+dim_security,500,500,8,8,True
+fact_fees,122197,122197,8,8,True
+fact_portfolio_snapshot,129547,129547,14,14,True
+fact_transactions,298572,298572,10,10,True

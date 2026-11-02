@@ -1,0 +1,5 @@
+table,grain_columns,rows,duplicate_grain_rows,unique
+fact_transactions,txn_id,298572,0,True
+fact_fees,client_id + fee_date,122197,0,True
+fact_portfolio_snapshot,client_id + snapshot_date,129547,0,True
+fact_transactions,client_id + txn_date + txn_type + security_id,298572,622,False

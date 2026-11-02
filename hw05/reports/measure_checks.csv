@@ -1,0 +1,27 @@
+check,value,note
+"snapshot aum, Dec 2024 total",12729572078.86,"valid: one month, summed across clients"
+"snapshot aum, all 2024 rows summed",135459843783.73,invalid: twelve balances stacked
+"snapshot aum, 2024 sum / Dec 2024",10.641,how far a yearly SUM overstates AUM
+"snapshot aum, all rows summed",566681084542.48,invalid: sixty balances stacked
+"fees aum_basis equals snapshot aum, same client-month",1.0,"aum_basis is the same balance, so it is semi-additive too"
+"fees amount vs aum_basis x bps / 10000 / 12, max gap",0.005,amount is a monthly charge; rounding to cents only
+"fees amount, all rows summed",204675583.12,valid: total fees charged 2020-2024
+"fees bps_charged, simple average",75.9904,unweighted
+"fees bps_charged, aum-weighted average",45.6109,weighted by aum_basis; the rate the firm earned
+"fees bps_charged, all rows summed",9285797.49,meaningless
+"snapshot return_ytd - benchmark_return_ytd - active_alpha_ytd, max gap",1e-06,alpha is derived from two ratios
+"client 1 return_ytd, Dec 2024",0.236041,the 2024 return to date
+"client 1 return_ytd, 2024 rows summed",1.234084,invalid: YTD values already include earlier months
+snapshot cash_pct range,0.01 to 0.08,a share of AUM
+"snapshot cash_pct, Dec 2024 aum-weighted average",0.044062,weighted by aum; summing shares of different balances is meaningless
+"transactions amount, Advisory Fee",263709737.13,
+"transactions amount, Buy",5321219471.63,
+"transactions amount, Deposit",1818808258.58,
+"transactions amount, Dividend",3449274418.66,
+"transactions amount, Sell",3800876042.3,
+"transactions amount, Withdrawal",1491369231.96,
+"transactions amount, all types summed",16145257160.26,gross activity; deposits and withdrawals both count as positive
+transactions net new money (Deposit - Withdrawal),327439026.62,needs a sign by txn_type
+"transactions shares x price vs amount, max gap",0.005,shares and amount are unsigned on Buy and Sell rows
+transactions distinct securities,500,shares only add up inside one security
+fact_fees amount minus Advisory Fee debits in fact_transactions,-59034154.01,negative: debits exceed charges
