@@ -1,0 +1,6 @@
+// Part D step 1: model metadata. DAX query view shows one result tab per EVALUATE.
+EVALUATE INFO.VIEW.TABLES ()
+
+EVALUATE INFO.VIEW.COLUMNS ()
+
+EVALUATE INFO.VIEW.RELATIONSHIPS ()

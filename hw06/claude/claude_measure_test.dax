@@ -1,0 +1,46 @@
+// Part D: Claude's AUM-Weighted Alpha exactly as drafted (query-scoped), next to the final model measure.
+DEFINE
+    MEASURE _Measures[Alpha (Claude draft)] =
+        VAR LastSnapshotDate =
+            CALCULATE ( MAX ( fact_portfolio_snapshot[snapshot_date] ) )
+        RETURN
+            CALCULATE (
+                DIVIDE (
+                    SUMX (
+                        fact_portfolio_snapshot,
+                        fact_portfolio_snapshot[aum] * fact_portfolio_snapshot[active_alpha_ytd]
+                    ),
+                    SUM ( fact_portfolio_snapshot[aum] )
+                ),
+                fact_portfolio_snapshot[snapshot_date] = LastSnapshotDate,
+                fact_portfolio_snapshot[is_return_suspect] = 0
+            )
+
+// By year: Claude's test query columns, plus the final measure
+EVALUATE
+SUMMARIZECOLUMNS (
+    dim_date[year],
+    "Last snapshot", CALCULATE ( MAX ( fact_portfolio_snapshot[snapshot_date] ) ),
+    "Rows at last snapshot",
+        VAR d = CALCULATE ( MAX ( fact_portfolio_snapshot[snapshot_date] ) )
+        RETURN CALCULATE ( COUNTROWS ( fact_portfolio_snapshot ), fact_portfolio_snapshot[snapshot_date] = d ),
+    "Suspect rows excluded",
+        VAR d = CALCULATE ( MAX ( fact_portfolio_snapshot[snapshot_date] ) )
+        RETURN CALCULATE ( COUNTROWS ( fact_portfolio_snapshot ), fact_portfolio_snapshot[snapshot_date] = d, fact_portfolio_snapshot[is_return_suspect] = 1 ),
+    "Claude draft", [Alpha (Claude draft)],
+    "Final measure", [AUM-Weighted Alpha]
+)
+ORDER BY dim_date[year]
+
+// By client tier for 2024
+EVALUATE
+SUMMARIZECOLUMNS (
+    dim_client[client_tier],
+    TREATAS ( { 2024 }, dim_date[year] ),
+    "Claude draft", [Alpha (Claude draft)],
+    "Final measure", [AUM-Weighted Alpha]
+)
+
+// Grand total
+EVALUATE
+ROW ( "Claude draft", [Alpha (Claude draft)], "Final measure", [AUM-Weighted Alpha] )
