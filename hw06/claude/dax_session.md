@@ -9,7 +9,7 @@ Workflow: **Draft → Test → Debug → Review**. The prompt below went to Clau
 
 > I'm building a DAX measure in Power BI Desktop for a wealth-management star schema (Wildcat Capital). The model metadata from INFO.VIEW.TABLES, INFO.VIEW.COLUMNS and INFO.VIEW.RELATIONSHIPS is below.
 >
-> *[full contents of `claude/model_metadata.md` pasted here: 8 tables with row counts, 77 columns with data types, 12 relationships]*
+> *[INFO.VIEW.TABLES, INFO.VIEW.COLUMNS and INFO.VIEW.RELATIONSHIPS output from `claude/model_metadata.md` pasted here: tables, columns with data types, and relationships with cardinality and direction]*
 >
 > **What the metadata cannot tell you:**
 >
@@ -17,7 +17,7 @@ Workflow: **Draft → Test → Debug → Review**. The prompt below went to Clau
 > 2. **`aum` is a balance (semi-additive).** It sums across clients for one date, never across dates.
 > 3. **`active_alpha_ytd` is year-to-date** (`return_ytd - benchmark_return_ytd`), stored as a decimal (0.02 = 2%). The December value covers the whole year; a January value covers one month. It is non-additive.
 > 4. **`is_return_suspect`** is 1 on 3,875 rows whose returns failed a data-quality check. Those rows must be excluded.
-> 5. `dim_date` is marked as the date table on `dim_date[date]`, and `fact_portfolio_snapshot[snapshot_date]` joins to it. Filters reach the snapshot table through `dim_date`, `dim_client` (e.g. `client_tier`), `dim_advisor` and `dim_benchmark`. All relationships are single direction.
+> 5. The assignment says `dim_date` is marked as the date table on `dim_date[date]`, and `fact_portfolio_snapshot[snapshot_date]` joins to it. Filters reach the snapshot table through `dim_date`, `dim_client` (e.g. `client_tier`), `dim_advisor` and `dim_benchmark`. All relationships are single direction.
 >
 > **Business definition (from the assignment):** `AUM-Weighted Alpha` = `active_alpha_ytd` weighted by `aum`, at the last snapshot in the current filter context, excluding `is_return_suspect = 1`.
 >

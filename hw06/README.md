@@ -12,7 +12,8 @@ hw06/
 │   ├── hw06.pbix                     posted model + _Measures table + "Measures" report page
 │   ├── measures.md                   Part A documentation and Part C answers
 │   ├── measures.tmdl                 every measure with format string and display folder (TMDL view script)
-│   └── export_values.dax             one DAX query that returns all 95 (measure, slice, value) rows
+│   ├── export_values.dax             one DAX query that returns all 95 (measure, slice, value) rows
+│   └── info_view_queries.dax         the three INFO.VIEW metadata queries for Part D
 ├── scripts/
 │   ├── 01_reconcile_measures.py      Part B: pandas recompute + comparison
 │   └── 02_part_c_evidence.py         Part C: pandas evidence for (a)-(d)
@@ -22,7 +23,10 @@ hw06/
 │   └── part_c_evidence.csv           numbers quoted in Part C
 ├── claude/
 │   ├── model_metadata.md             INFO.VIEW metadata given to Claude
+│   ├── info_view_raw.txt             unedited INFO.VIEW output, every column
 │   ├── dax_session.md                Part D prompt and Claude's full response
+│   ├── claude_measure_test.dax       Claude's draft measure and test query, run in DAX query view
+│   ├── claude_measure_test_results.txt   the Power BI result grids from that run
 │   └── verification.md               Part D test, debug and review
 └── data/
     └── clean/                        the 8 course CSVs (not committed; copy from "Wildcat Capital Clean/")
@@ -33,8 +37,8 @@ hw06/
 Requires Python 3.10+ and pandas 2.x (tested on pandas 2.3.3).
 
 1. Copy the eight files from `Wildcat Capital Clean/` into `hw06/data/clean/`.
-2. Build the measures in Power BI Desktop: open `hw06.pbix`, go to **TMDL view**, paste `powerbi/measures.tmdl`, and select **Apply**.
-3. Export the Power BI numbers: in **DAX query view**, paste `powerbi/export_values.dax`, select **Run**, then **Copy** the result grid and paste it into `reports/powerbi_values.csv`. The script reads either the tab-separated text that Copy produces or a comma CSV from **Export data**.
+2. The measures are already in `hw06.pbix`. To rebuild them in a fresh copy of the posted model, paste `powerbi/measures.tmdl` into **TMDL view** and select **Apply** (if a `_Measures` table made with Enter data already exists, delete it first: TMDL cannot turn an Enter-data table into a calculated table).
+3. Export the Power BI numbers: in **DAX query view**, paste `powerbi/export_values.dax`, select **Run**, then **Copy → Entire table** and paste the grid into `reports/powerbi_values.csv`. The script reads either the tab-separated text that Copy produces or a comma CSV from **Export data**.
 4. From the `hw06` folder, run:
 
 ```
@@ -65,7 +69,7 @@ Tolerance is 0.01 for currency and counts, and 0.0001 for ratios and bps. `Alpha
 
 The pandas side rebuilds each filter context instead of copying DAX. `LASTNONBLANK` becomes "the latest `snapshot_date` inside the window", `SAMEPERIODLASTYEAR` and `DATEADD` become the window shifted back and clipped to the 2020 to 2024 range of `dim_date` (DAX only returns dates that exist in the date column), and `client_tier` comes from a many-to-one join to `dim_client`, the same path the relationship uses. `AUM (naive SUM)` and its pandas twin both return $566,681,084,542.48 at the grand total and $135,459,843,783.73 for 2024, so the two tools make the same mistake.
 
-**Mismatches and fixes.** The pandas logic was checked against a full synthetic export before the Power BI run: one wrong value and one deleted row both failed as expected, and a correct file matched 95 of 95. *(Record here any row that failed on the real Power BI export, which side was wrong, and the fix.)*
+**Mismatches and fixes.** Every row matched on the first run against the real Power BI export: 95 of 95. The largest gap is $0.000092 on `AUM (naive SUM)` for 2020, a floating-point rounding difference on an $88.6 billion sum, far inside the $0.01 tolerance. Before the Power BI run, I tested the script against a synthetic export: one wrong value and one deleted row both failed as expected, so a 95-of-95 result means the two sides agree, not that the comparison is blind.
 
 ## Claude Code review findings
 
@@ -80,6 +84,8 @@ Claude drafted both scripts in this session, and a Claude Code review pass read 
 
 ## Power BI notes
 
-- `hw06.pbix` is a copy of the posted `Wildcat_Star_Model.pbix` saved on the Apporto virtual desktop. Power BI on Apporto warns that the posted file came from a newer Desktop version; the model opens and all eight tables load.
-- All measures sit in `_Measures`, grouped in display folders: `0 Base`, `1 AUM`, `2 Growth`, `3 Revenue and flows`, `4 Performance`, `8 Part C checks`, and `9 Do not use` for the naive SUM.
-- The **Measures** page holds four cards (Ending AUM, Ending Clients, Avg AUM per Client, Top 10 Client Share), a table by `dim_date[year]`, and a table by `dim_client[client_tier]` with a visual-level filter `dim_date[year] = 2024`.
+- `hw06.pbix` (21.9 MB, under GitHub's 100 MB limit) is a copy of the posted `Wildcat_Star_Model.pbix` saved on the Apporto virtual desktop. Power BI on Apporto warns that the posted file came from a newer Desktop version; the model opens and all eight tables load.
+- All 20 measures sit in `_Measures`, grouped in display folders: `0 Base`, `1 AUM`, `2 Growth`, `3 Revenue and flows`, `4 Performance`, `8 Part C checks`, and `9 Do not use` for the naive SUM.
+- The **Measures** page holds four cards (Ending AUM, Ending Clients, Avg AUM per Client, Top 10 Client Share), a table by `dim_date[year]`, and a table by `dim_client[client_tier]` with a visual-level filter `dim_date[year] = 2024`. The file was saved with this page open.
+- The Power BI build on Apporto draws the four cards as blank boxes; it fails to render the card visual on that virtual desktop. Each card holds the right measure (checked in the saved report definition), and the four values match `measure_reconciliation.csv`: $12,729,572,078.86, 2,325 clients, $5,475,084.77 and 6.16%. Three of them also show in the tier table's Total row.
+- INFO.VIEW shows that `dim_date` is not marked as a date table in the posted model; see `claude/model_metadata.md`. The time-intelligence measures still return the right numbers because each fact table joins to the Date column `dim_date[date]`, and the LY and PM rows of the reconciliation prove it.

@@ -1,0 +1,96 @@
+measure,slice,value
+Alpha Signal,client_tier=HNW | year=2024,In line
+Alpha Signal,client_tier=Retail | year=2024,Outperforming
+Alpha Signal,client_tier=UHNW | year=2024,In line
+Alpha Signal,Total,In line
+Alpha Signal,year=2020,In line
+Alpha Signal,year=2021,In line
+Alpha Signal,year=2022,Outperforming
+Alpha Signal,year=2023,In line
+Alpha Signal,year=2024,In line
+AUM (naive SUM),Total,566681084542.4800000000
+AUM (naive SUM),year=2020,88551598743.6199000000
+AUM (naive SUM),year=2021,109624245862.6700000000
+AUM (naive SUM),year=2022,115093764844.4800000000
+AUM (naive SUM),year=2023,117951631307.9800000000
+AUM (naive SUM),year=2024,135459843783.7300000000
+AUM MoM %,Total,0.0424537494
+AUM MoM %,year=2024 | month=12,0.0424537494
+AUM YoY %,client_tier=HNW | year=2024,0.1964022199
+AUM YoY %,client_tier=Retail | year=2024,0.1912855774
+AUM YoY %,client_tier=UHNW | year=2024,0.1959306050
+AUM YoY %,Total,0.1958295798
+AUM YoY %,year=2020,
+AUM YoY %,year=2021,0.2312505584
+AUM YoY %,year=2022,-0.0701420063
+AUM YoY %,year=2023,0.1436172727
+AUM YoY %,year=2024,0.1958295798
+AUM-Weighted Alpha,client_tier=HNW | year=2024,0.0139880428
+AUM-Weighted Alpha,client_tier=Retail | year=2024,0.0240410089
+AUM-Weighted Alpha,client_tier=UHNW | year=2024,0.0140966253
+AUM-Weighted Alpha,Total,0.0144799468
+AUM-Weighted Alpha,year=2020,-0.0068017028
+AUM-Weighted Alpha,year=2021,-0.0015743692
+AUM-Weighted Alpha,year=2022,0.0284940699
+AUM-Weighted Alpha,year=2023,0.0176890471
+AUM-Weighted Alpha,year=2024,0.0144799468
+AUM-Weighted Alpha incl. Suspects,Total,0.0166784324
+Avg AUM per Client,client_tier=HNW | year=2024,3709637.7792285300
+Avg AUM per Client,client_tier=Retail | year=2024,382677.5451147780
+Avg AUM per Client,client_tier=UHNW | year=2024,39539337.8140984000
+Avg AUM per Client,Total,5475084.7651010700
+Avg Monthly AUM,Total,9444684742.3746700000
+Avg Monthly AUM,year=2020,7379299895.3016600000
+Avg Monthly AUM,year=2021,9135353821.8891700000
+Avg Monthly AUM,year=2022,9591147070.3733300000
+Avg Monthly AUM,year=2023,9829302608.9983300000
+Avg Monthly AUM,year=2024,11288320315.3108000000
+Effective Fee Rate (bps),year=2024,45.5323199074
+Ending AUM,client_tier=HNW | year=2024,2548521154.3300000000
+Ending AUM,client_tier=Retail | year=2024,533452497.8900000000
+Ending AUM,client_tier=UHNW | year=2024,9647598426.6400000000
+Ending AUM,Total,12729572078.8600000000
+Ending AUM,year=2020,8130190789.3700000000
+Ending AUM,year=2021,10010301949.1100000000
+Ending AUM,year=2022,9308159286.5300000000
+Ending AUM,year=2023,10644971737.0000000000
+Ending AUM,year=2024,12729572078.8600000000
+Ending AUM,year=2024 | month=12,12729572078.8600000000
+Ending AUM LY,client_tier=HNW | year=2024,2130154150.4200000000
+Ending AUM LY,client_tier=Retail | year=2024,447795648.6700000000
+Ending AUM LY,client_tier=UHNW | year=2024,8067021937.9100000000
+Ending AUM LY,Total,10644971737.0000000000
+Ending AUM LY,year=2020,
+Ending AUM LY,year=2021,8130190789.3700000000
+Ending AUM LY,year=2022,10010301949.1100000000
+Ending AUM LY,year=2023,9308159286.5300000000
+Ending AUM LY,year=2024,10644971737.0000000000
+Ending AUM PM,Total,12211162447.9400000000
+Ending AUM PM,year=2024 | month=12,12211162447.9400000000
+Ending AUM SUMX by Client,Total,13149297713.8000000000
+Ending Clients,Total,2325.0000000000
+Fee Yield (bps),client_tier=HNW | year=2024,61.3857195794
+Fee Yield (bps),client_tier=Retail | year=2024,82.8105364654
+Fee Yield (bps),client_tier=UHNW | year=2024,36.1422128493
+Fee Yield (bps),Total,43.3419618977
+Fee Yield (bps),year=2020,43.3267384218
+Fee Yield (bps),year=2021,42.9593558883
+Fee Yield (bps),year=2022,44.1748879661
+Fee Yield (bps),year=2023,43.1117068175
+Fee Yield (bps),year=2024,43.1543441090
+Net Flows,Total,327439026.6200000000
+Organic Growth Rate,client_tier=HNW | year=2024,0.0118429956
+Organic Growth Rate,client_tier=Retail | year=2024,0.0986701138
+Organic Growth Rate,client_tier=UHNW | year=2024,0.0010042865
+Organic Growth Rate,Total,0.0307599714
+Organic Growth Rate,year=2020,
+Organic Growth Rate,year=2021,0.0062002107
+Organic Growth Rate,year=2022,0.0075496535
+Organic Growth Rate,year=2023,0.0083266774
+Organic Growth Rate,year=2024,0.0072816591
+Simple Mean Alpha,Total,0.0087880009
+Top 10 Client Share,client_tier=HNW | year=2024,0.0313967475
+Top 10 Client Share,client_tier=Retail | year=2024,0.0183482183
+Top 10 Client Share,client_tier=UHNW | year=2024,0.0812642675
+Top 10 Client Share,Total,0.0615892675
+Total Fees,Total,204675583.1200000000
