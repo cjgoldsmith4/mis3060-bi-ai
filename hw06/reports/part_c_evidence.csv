@@ -1,0 +1,57 @@
+question,item,value
+a,Ending AUM (last snapshot date),12729572078.86
+a,SUMX over clients of each client's own Ending AUM,13149297713.8
+a,Difference,419725634.94
+a,Clients whose last snapshot is before the last date,175
+a,Their last balances (sum),419725634.94
+a,Earliest last snapshot among them,2022-12-01
+a,Latest last snapshot among them,2023-11-01
+b,2024 Fee Yield (bps): fees / all snapshot aum,43.1543
+b,2024 Effective Fee Rate (bps): fees / billed aum_basis,45.5323
+b,Ratio Fee Yield / Effective Fee Rate,0.947774
+b,2024 share of snapshot aum with no fee row,0.052226
+b,1 - unbilled share (equals the ratio),0.947774
+b,2024 snapshot months with no fee row,1684
+b,2024 snapshot months,27900
+b,All years: snapshot months with no fee row,7350
+b,All years: snapshot months,129547
+b,Fee rows with no snapshot,0
+b,Clients with at least one unbilled month,2261
+b,Unbilled month rate 2020,0.0557
+b,Unbilled month rate 2021,0.0622
+b,Unbilled month rate 2022,0.0485
+b,Unbilled month rate 2023,0.0574
+b,Unbilled month rate 2024,0.0604
+b,Unbilled month rate HNW,0.0532
+b,Unbilled month rate Retail,0.0595
+b,Unbilled month rate UHNW,0.0509
+c,"AUM-weighted alpha, suspects excluded",0.01448
+c,"AUM-weighted alpha, suspects included",0.016678
+c,"Simple mean alpha, suspects excluded",0.008788
+c,Suspect rows at last snapshot,148
+c,Suspect share of last-snapshot AUM,0.001221
+c,Suspect alpha max,71.337772
+c,Non-suspect alpha max,0.495286
+c,Non-suspect alpha min,-0.498245
+c,2024 weighted alpha if all 12 months are pooled,0.003225
+d,HNW Ending AUM 2024,2548521154.33
+d,HNW share of 2024 Ending AUM,0.200205
+d,HNW Net Flows 2024,25227406.26
+d,HNW AUM change 2024,418367003.91
+d,HNW Organic Growth Rate,0.011843
+d,HNW AUM YoY %,0.196402
+d,HNW YoY minus organic (non-flow growth),0.184559
+d,Retail Ending AUM 2024,533452497.89
+d,Retail share of 2024 Ending AUM,0.041907
+d,Retail Net Flows 2024,44184047.61
+d,Retail AUM change 2024,85656849.22
+d,Retail Organic Growth Rate,0.09867
+d,Retail AUM YoY %,0.191286
+d,Retail YoY minus organic (non-flow growth),0.092615
+d,UHNW Ending AUM 2024,9647598426.64
+d,UHNW share of 2024 Ending AUM,0.757889
+d,UHNW Net Flows 2024,8101601.39
+d,UHNW AUM change 2024,1580576488.73
+d,UHNW Organic Growth Rate,0.001004
+d,UHNW AUM YoY %,0.195931
+d,UHNW YoY minus organic (non-flow growth),0.194926

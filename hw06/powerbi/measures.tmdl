@@ -1,0 +1,175 @@
+createOrReplace
+
+	table _Measures
+
+		measure 'Total Fees' = SUM ( fact_fees[amount] )
+			formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+			displayFolder: 0 Base
+
+		measure 'Net Flows' =
+				CALCULATE ( SUM ( fact_transactions[amount] ), fact_transactions[txn_type] = "Deposit" )
+				    - CALCULATE ( SUM ( fact_transactions[amount] ), fact_transactions[txn_type] = "Withdrawal" )
+			formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+			displayFolder: 0 Base
+
+		/// WRONG ON PURPOSE: sums monthly balances across months. Never put on a report.
+		measure 'AUM (naive SUM)' = SUM ( fact_portfolio_snapshot[aum] )
+			formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+			displayFolder: 9 Do not use
+
+		measure 'Ending AUM' =
+				VAR LastSnapshot =
+				    LASTNONBLANK ( dim_date[date], CALCULATE ( SUM ( fact_portfolio_snapshot[aum] ) ) )
+				RETURN
+				    CALCULATE ( SUM ( fact_portfolio_snapshot[aum] ), LastSnapshot )
+			formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+			displayFolder: 1 AUM
+
+		measure 'Ending Clients' =
+				VAR LastSnapshot =
+				    LASTNONBLANK ( dim_date[date], CALCULATE ( SUM ( fact_portfolio_snapshot[aum] ) ) )
+				RETURN
+				    CALCULATE ( DISTINCTCOUNT ( fact_portfolio_snapshot[client_id] ), LastSnapshot )
+			formatString: #,0
+			displayFolder: 1 AUM
+
+		measure 'Avg AUM per Client' = DIVIDE ( [Ending AUM], [Ending Clients] )
+			formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+			displayFolder: 1 AUM
+
+		measure 'Ending AUM LY' = CALCULATE ( [Ending AUM], SAMEPERIODLASTYEAR ( dim_date[date] ) )
+			formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+			displayFolder: 2 Growth
+
+		measure 'AUM YoY %' =
+				VAR CurrentAUM = [Ending AUM]
+				VAR PriorAUM = [Ending AUM LY]
+				RETURN
+				    IF ( ISBLANK ( CurrentAUM ) || ISBLANK ( PriorAUM ), BLANK (), DIVIDE ( CurrentAUM - PriorAUM, PriorAUM ) )
+			formatString: 0.00%;-0.00%;0.00%
+			displayFolder: 2 Growth
+
+		measure 'Ending AUM PM' = CALCULATE ( [Ending AUM], DATEADD ( dim_date[date], -1, MONTH ) )
+			formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+			displayFolder: 2 Growth
+
+		measure 'AUM MoM %' =
+				VAR CurrentAUM = [Ending AUM]
+				VAR PriorAUM = [Ending AUM PM]
+				RETURN
+				    IF ( ISBLANK ( CurrentAUM ) || ISBLANK ( PriorAUM ), BLANK (), DIVIDE ( CurrentAUM - PriorAUM, PriorAUM ) )
+			formatString: 0.00%;-0.00%;0.00%
+			displayFolder: 2 Growth
+
+		measure 'Avg Monthly AUM' =
+				DIVIDE (
+				    SUM ( fact_portfolio_snapshot[aum] ),
+				    DISTINCTCOUNT ( fact_portfolio_snapshot[snapshot_date] )
+				)
+			formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+			displayFolder: 1 AUM
+
+		measure 'Fee Yield (bps)' = DIVIDE ( [Total Fees] * 12 * 10000, SUM ( fact_portfolio_snapshot[aum] ) )
+			formatString: #,0.00
+			displayFolder: 3 Revenue and flows
+
+		measure 'Organic Growth Rate' = DIVIDE ( [Net Flows], [Ending AUM LY] )
+			formatString: 0.00%;-0.00%;0.00%
+			displayFolder: 3 Revenue and flows
+
+		measure 'AUM-Weighted Alpha' =
+				VAR LastSnapshot =
+				    LASTNONBLANK ( dim_date[date], CALCULATE ( SUM ( fact_portfolio_snapshot[aum] ) ) )
+				RETURN
+				    CALCULATE (
+				        DIVIDE (
+				            SUMX ( fact_portfolio_snapshot, fact_portfolio_snapshot[aum] * fact_portfolio_snapshot[active_alpha_ytd] ),
+				            SUM ( fact_portfolio_snapshot[aum] )
+				        ),
+				        LastSnapshot,
+				        fact_portfolio_snapshot[is_return_suspect] = 0
+				    )
+			formatString: 0.00%;-0.00%;0.00%
+			displayFolder: 4 Performance
+
+		measure 'Alpha Signal' =
+				VAR Alpha = [AUM-Weighted Alpha]
+				RETURN
+				    SWITCH (
+				        TRUE (),
+				        ISBLANK ( Alpha ), BLANK (),
+				        Alpha >= 0.02, "Outperforming",
+				        Alpha <= -0.02, "Lagging",
+				        "In line"
+				    )
+			displayFolder: 4 Performance
+
+		measure 'Top 10 Client Share' =
+				VAR LastSnapshot =
+				    LASTNONBLANK ( dim_date[date], CALCULATE ( SUM ( fact_portfolio_snapshot[aum] ) ) )
+				VAR TopClients =
+				    TOPN (
+				        10,
+				        VALUES ( dim_client[client_id] ),
+				        CALCULATE ( SUM ( fact_portfolio_snapshot[aum] ), LastSnapshot ),
+				        DESC
+				    )
+				RETURN
+				    DIVIDE (
+				        CALCULATE ( SUM ( fact_portfolio_snapshot[aum] ), LastSnapshot, TopClients ),
+				        CALCULATE ( SUM ( fact_portfolio_snapshot[aum] ), LastSnapshot )
+				    )
+			formatString: 0.00%;-0.00%;0.00%
+			displayFolder: 1 AUM
+
+		/// Part C (a): adds each client's own last balance, including clients who left.
+		measure 'Ending AUM SUMX by Client' = SUMX ( VALUES ( dim_client[client_id] ), [Ending AUM] )
+			formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+			displayFolder: 8 Part C checks
+
+		/// Part C (b): the ICE 9 fee rate, fees per dollar of billed aum_basis.
+		measure 'Effective Fee Rate (bps)' =
+				DIVIDE ( [Total Fees] * 12 * 10000, SUM ( fact_fees[aum_basis] ) )
+			formatString: #,0.00
+			displayFolder: 8 Part C checks
+
+		/// Part C (c): same as AUM-Weighted Alpha but keeps is_return_suspect = 1 rows.
+		measure 'AUM-Weighted Alpha incl. Suspects' =
+				VAR LastSnapshot =
+				    LASTNONBLANK ( dim_date[date], CALCULATE ( SUM ( fact_portfolio_snapshot[aum] ) ) )
+				RETURN
+				    CALCULATE (
+				        DIVIDE (
+				            SUMX ( fact_portfolio_snapshot, fact_portfolio_snapshot[aum] * fact_portfolio_snapshot[active_alpha_ytd] ),
+				            SUM ( fact_portfolio_snapshot[aum] )
+				        ),
+				        LastSnapshot
+				    )
+			formatString: 0.00%;-0.00%;0.00%
+			displayFolder: 8 Part C checks
+
+		/// Part C (c): unweighted mean alpha on the same rows as AUM-Weighted Alpha.
+		measure 'Simple Mean Alpha' =
+				VAR LastSnapshot =
+				    LASTNONBLANK ( dim_date[date], CALCULATE ( SUM ( fact_portfolio_snapshot[aum] ) ) )
+				RETURN
+				    CALCULATE (
+				        AVERAGE ( fact_portfolio_snapshot[active_alpha_ytd] ),
+				        LastSnapshot,
+				        fact_portfolio_snapshot[is_return_suspect] = 0
+				    )
+			formatString: 0.00%;-0.00%;0.00%
+			displayFolder: 8 Part C checks
+
+		column Value
+			dataType: int64
+			isHidden
+			formatString: 0
+			summarizeBy: none
+			isNameInferred
+			sourceColumn: [Value]
+
+		partition _Measures = calculated
+			mode: import
+			source = {BLANK()}
+

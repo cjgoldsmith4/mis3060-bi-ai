@@ -1,0 +1,5 @@
+# The clean tables are the course-provided source; copy them in from "Wildcat Capital Clean/".
+data/
+__pycache__/
+# The repo-wide .gitignore excludes *.csv; HW6 reports are CSVs, so re-include them.
+!reports/*.csv
